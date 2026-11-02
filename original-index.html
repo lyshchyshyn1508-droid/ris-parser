@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Simple PyScript App</title>
+    <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+</head>
+<body>
+    <h1>Simple PyScript App</h1>
+    <textarea id="input-text">Enter some text</textarea>
+    <button py-click="display_text">Run</button>
+    <p id="output-text">text</p>
+
+    <script type="py">
+def f(au):
+    r=au.split(", ")
+    if len(r)==2:
+        return r[0]+" "+r[1][0]+"."
+    if len(r)==1:
+        return r[0]
+
+def convert(ris_text):
+    title=""
+    volume=""
+    AU=[]
+    for i in ris_text.splitlines(True):
+        r=i.split("  - ")
+        # print(r[0], r[1])
+        if r[0]=="T1":
+            title=r[1][0:-1]
+        if r[0]=="JO":
+            journal=r[1][0:-1]
+        if r[0]=="PY":
+            year=r[1][0:-1]
+        if r[0]=="VL":
+            volume=r[1][0:-1]
+        if r[0]=="SP":
+            sp=r[1][0:-1]
+        if r[0]=="DO":
+            doi=r[1][0:-1]
+        if r[0]=="AU":
+            au=r[1][0:-1]
+            AU.append(f(au))
+    return "%s %s. // %s. %s. %s. %s. DOI: %s"%(", ".join(AU), title, journal, year, volume, sp, doi)
+    
+from pyscript import document
+def display_text(*args):
+    input_text = document.getElementById("input-text").value
+    output = document.getElementById("output-text")
+    output.innerText = convert(input_text)
+    </script>
+</body>
+</html>
