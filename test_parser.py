@@ -1,4 +1,3 @@
-"""Run with python3 test_parser.py. Tests exercise Python extracted from index.html."""
 import re
 import unittest
 from pathlib import Path

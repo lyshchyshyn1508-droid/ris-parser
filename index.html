@@ -11,15 +11,15 @@
 </head>
 <body>
 <main>
-<header><div class="eyebrow">ЛАБОРАТОРНА РОБОТА №14</div><h1>RIS → бібліографічний список</h1><p>Вставте один або кілька RIS-записів. Програма збере авторів, назву, видання, рік, сторінки та DOI.</p></header>
+<header><div class="eyebrow">ЛАБОРАТОРНА РОБОТА №14</div><h1>RIS → бібліографічний список</h1><p>Перетворення RIS-записів на бібліографічний список.</p></header>
 <section class="card" aria-labelledby="input-label">
 <label id="input-label" for="input-text">RIS-текст</label>
 <textarea id="input-text" spellcheck="false" aria-describedby="input-help" placeholder="TY  - JOUR&#10;TI  - Назва статті&#10;ER  -"></textarea>
 <div class="actions"><button class="primary" id="run" py-click="display_text">Перетворити</button><button type="button" id="example">Вставити приклад</button><button type="button" id="clear">Очистити</button></div>
-<p id="input-help" class="note">Підтримано T1/TI, JO/JF/JA/T2, AU/A1, PY/Y1, VL, IS, SP/EP, DO, PB/CY. Початок запису: TY, кінець: ER.</p>
+<p id="input-help" class="note">Вставте RIS-текст і натисніть «Перетворити».</p>
 </section>
-<section class="card" aria-labelledby="result-title"><h2 id="result-title">Результат</h2><p id="status" role="status" aria-live="polite">Завантаження Python… Для першого запуску потрібен інтернет.</p><ol id="output-text"></ol><ul id="warnings" aria-label="Попередження"></ul><button type="button" id="copy" disabled>Копіювати список</button></section>
-<footer>Обробка відбувається в браузері. Список є навчальним форматуванням, а не гарантією відповідності ДСТУ чи APA. DOI не перевіряється в зовнішніх базах.</footer>
+<section class="card" aria-labelledby="result-title"><h2 id="result-title">Результат</h2><p id="status" role="status" aria-live="polite">Завантаження…</p><ol id="output-text"></ol><ul id="warnings" aria-label="Попередження"></ul><button type="button" id="copy" disabled>Копіювати список</button></section>
+
 </main>
 <script>
 const example = `TY  - JOUR
@@ -47,7 +47,6 @@ document.getElementById('clear').addEventListener('click',()=>{for(const id of [
 document.getElementById('copy').addEventListener('click',async()=>{const value=Array.from(document.querySelectorAll('#output-text li'),(item,i)=>`${i+1}. ${item.textContent}`).join('\n');try{await navigator.clipboard.writeText(value);document.getElementById('status').textContent='Список скопійовано.';}catch{document.getElementById('status').textContent='Браузер не дозволив копіювання. Виділіть результат і скопіюйте вручну.';}});
 </script>
 <script type="py">
-# Parser improvements for vkopey/ris-parser; Python/PyScript retained.
 import re
 
 KNOWN = {'TY','T1','TI','JO','JF','JA','T2','AU','A1','PY','Y1','VL','IS','SP','EP','DO','PB','CY','UR','AB','N1','KW','SN','ID','ET','A2'}
@@ -176,7 +175,7 @@ def display_text(*args):
     copy.disabled = not bool(results)
     document.getElementById('status').textContent = ('Оброблено записів: %d. Попереджень: %d.' % (len(results), len(warnings)))
 
-document.getElementById('status').textContent = 'Готово. Вставте RIS-текст або натисніть «Вставити приклад».'
+document.getElementById('status').textContent = 'Готово до роботи.'
 </script>
 </body>
 </html>
